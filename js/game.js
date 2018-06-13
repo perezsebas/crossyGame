@@ -3,15 +3,16 @@ let gameScene = new Phaser.Scene('Game');
 
 
 // some parameters for our scene
-gameScene.init = function() {
+gameScene.init = function () {
   this.playerSpeed = 1.5;
   this.enemySpeed = 2;
   this.enemyMaxY = 280;
   this.enemyMinY = 80;
+  // this.scaleRatio = window.devicePixelRatio / 3;
 }
 
 // load asset files for our game
-gameScene.preload = function() {
+gameScene.preload = function () {
 
   // load images
   this.load.image('background', 'assets/background.png');
@@ -21,7 +22,7 @@ gameScene.preload = function() {
 };
 
 // executed once, after assets were loaded
-gameScene.create = function() {
+gameScene.create = function () {
 
   // background
   let bg = this.add.sprite(0, 0, 'background');
@@ -29,11 +30,16 @@ gameScene.create = function() {
   // change origin to the top-left of the sprite
   bg.setOrigin(0, 0);
 
+  // bg.setScale(this.sys.game.config.width / 640, this.sys.game.config.height / 360)
+  // this.bg = this.add.sprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0);
+  // bg.setScale(this.scaleRatio);
+
   // player
   this.player = this.add.sprite(40, this.sys.game.config.height / 2, 'player');
 
   // scale down
   this.player.setScale(0.5);
+  // this.player.setScale(1 / (this.sys.game.config.height * 72));
 
   // goal
   this.treasure = this.add.sprite(this.sys.game.config.width - 80, this.sys.game.config.height / 2, 'treasure');
@@ -55,7 +61,7 @@ gameScene.create = function() {
   Phaser.Actions.ScaleXY(this.enemies.getChildren(), -0.5, -0.5);
 
   // set speeds
-  Phaser.Actions.Call(this.enemies.getChildren(), function(enemy) {
+  Phaser.Actions.Call(this.enemies.getChildren(), function (enemy) {
     enemy.speed = Math.random() * 2 + 1;
   }, this);
 
@@ -67,10 +73,26 @@ gameScene.create = function() {
 
   // reset camera
   this.cameras.main.resetFX();
+
+  // this.events.on('resize', resize, this);
+
 };
 
+
+// gameScene.resize = function(width, height) {
+
+//   if (width === undefined) { width = this.sys.game.config.width; }
+//     if (height === undefined) { height = this.sys.game.config.height; }
+
+//     this.cameras.resize(width, height);
+
+//     this.bg.setSize(width, height);
+// }
+
+
+
 // executed on every frame (60 times per second)
-gameScene.update = function() {
+gameScene.update = function () {
 
   // only if the player is alive
   if (!this.isPlayerAlive) {
@@ -113,7 +135,7 @@ gameScene.update = function() {
   }
 };
 
-gameScene.gameOver = function() {
+gameScene.gameOver = function () {
 
   // flag to set player is dead
   this.isPlayerAlive = false;
@@ -122,28 +144,25 @@ gameScene.gameOver = function() {
   this.cameras.main.shake(500);
 
   // fade camera
-  this.time.delayedCall(250, function() {
+  this.time.delayedCall(250, function () {
     this.cameras.main.fade(250);
   }, [], this);
 
   // restart game
-  this.time.delayedCall(500, function() {
+  this.time.delayedCall(500, function () {
     this.scene.restart();
   }, [], this);
 };
 
-gameScene.playerWon = function() {
+gameScene.playerWon = function () {
 
-  this.scoreText = this.add.text( 120, 160, 'You got the treasure!', { fontSize: '32px', fill: '#FFF' , backgroundColor: '#000'});
-
-  // return;
+  this.scoreText = this.add.text(70, 170, 'You have got the treasure!', { fontSize: '32px', fill: '#FFF', backgroundColor: '#000' });
 
   // // restart game
-  this.time.delayedCall(100, function() {
+  this.time.delayedCall(100, function () {
     this.scene.pause();
   }, [], this);
 };
-
 
 
 // our game's configuration
@@ -151,8 +170,23 @@ let config = {
   type: Phaser.AUTO,
   width: 640,
   height: 360,
+  title: "Crossy",
+  url: "https://perezsebas.github.io/crossyGame/",
+  // type: Phaser.CANVAS,
+  // width: window.innerWidth * window.devicePixelRatio,
+  // height: window.innerHeight * window.devicePixelRatio,
+  // width: window.innerWidth,
+  // height: window.innerHeight,
   scene: gameScene
 };
 
 // create the game, and pass it the configuration
 let game = new Phaser.Game(config);
+
+// game.scale.scaleMode = Phaser.scaleMode.SHOW_ALL;
+
+// window.addEventListener('resize', function (event) {
+
+//   gameScene.resize(window.innerWidth, window.innerHeight);
+
+// }, false);
