@@ -1,6 +1,7 @@
 // create a new scene named "Game"
 let gameScene = new Phaser.Scene('Game');
 
+let testing = 'testing';
 
 // some parameters for our scene
 gameScene.init = function () {
