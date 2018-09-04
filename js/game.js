@@ -7,7 +7,6 @@ gameScene.init = function () {
   this.enemySpeed = 2;
   this.enemyMaxY = 280;
   this.enemyMinY = 80;
-  // this.scaleRatio = window.devicePixelRatio / 3;
 }
 
 // load asset files for our game
@@ -28,10 +27,6 @@ gameScene.create = function () {
 
   // change origin to the top-left of the sprite
   bg.setOrigin(0, 0);
-
-  // bg.setScale(this.sys.game.config.width / 640, this.sys.game.config.height / 360)
-  // this.bg = this.add.sprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0);
-  // bg.setScale(this.scaleRatio);
 
   // player
   this.player = this.add.sprite(40, this.sys.game.config.height / 2, 'player');
@@ -73,22 +68,7 @@ gameScene.create = function () {
   // reset camera
   this.cameras.main.resetFX();
 
-  // this.events.on('resize', resize, this);
-
 };
-
-
-// gameScene.resize = function(width, height) {
-
-//   if (width === undefined) { width = this.sys.game.config.width; }
-//     if (height === undefined) { height = this.sys.game.config.height; }
-
-//     this.cameras.resize(width, height);
-
-//     this.bg.setSize(width, height);
-// }
-
-
 
 // executed on every frame (60 times per second)
 gameScene.update = function () {
@@ -171,21 +151,8 @@ let config = {
   height: 360,
   title: "Crossy",
   url: "https://perezsebas.github.io/crossyGame/",
-  // type: Phaser.CANVAS,
-  // width: window.innerWidth * window.devicePixelRatio,
-  // height: window.innerHeight * window.devicePixelRatio,
-  // width: window.innerWidth,
-  // height: window.innerHeight,
   scene: gameScene
 };
 
 // create the game, and pass it the configuration
 let game = new Phaser.Game(config);
-
-// game.scale.scaleMode = Phaser.scaleMode.SHOW_ALL;
-
-// window.addEventListener('resize', function (event) {
-
-//   gameScene.resize(window.innerWidth, window.innerHeight);
-
-// }, false);
